@@ -10,6 +10,12 @@ const allPhones=phone=>{
     console.log(phone);
     const phone_container=document.getElementById('phone_container');
     phone_container.textContent='';
+    const showAllContainer=document.getElementById('showAllContainer');
+    if (phone.length>12) {
+        showAllContainer.classList.remove('hidden');
+    } else {
+        showAllContainer.classList.add('hidden');
+    }
     // step 2
     phone.forEach(phone => {
         const mobileDiv= document.createElement('div');
@@ -44,4 +50,10 @@ const loadingSpin=(isLoading)=>{
     loading.classList.add('hidden');
    }
 }
-// loadPhone();
+// loadPhone();\
+
+// 
+const handleShowAll=()=>{
+    console.log('clicked');
+    handleSearch();
+}
