@@ -1,12 +1,12 @@
 // https://openapi.programming-hero.com/api/phones?search=iphone
-const loadPhone=async(searchText)=>{
+const loadPhone=async(searchText , isShowAll)=>{
     const rea=await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`);
     const data=await rea.json();
     const result=data.data;
-    allPhones(result);
+    allPhones(result,isShowAll);
 }
 
-const allPhones=phone=>{
+const allPhones=(phone,isShowAll)=>{
     console.log(phone);
     const phone_container=document.getElementById('phone_container');
     phone_container.textContent='';
@@ -15,6 +15,9 @@ const allPhones=phone=>{
         showAllContainer.classList.remove('hidden');
     } else {
         showAllContainer.classList.add('hidden');
+    }
+    if (!isShowAll) {
+        phone=phone.slice(0,12);
     }
     // step 2
     phone.forEach(phone => {
@@ -26,8 +29,8 @@ const allPhones=phone=>{
         <div class="card-body">
           <h2 class="card-title">${phone.phone_name}</h2>
           <p>${phone.slug}</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+          <div class="card-actions justify-center">
+            <button onclick="showDetails('${phone.slug}')" class="btn btn-primary">Show Details</button>
           </div>
         </div>
         `
@@ -35,7 +38,7 @@ const allPhones=phone=>{
     });
     loadingSpin(false);
 }
-const handleSearch=()=>{
+const handleSearch=(isShowAll)=>{
     loadingSpin(true);
     const searchField=document.getElementById('searchField');
     const searchText=searchField.value;
@@ -55,5 +58,8 @@ const loadingSpin=(isLoading)=>{
 // 
 const handleShowAll=()=>{
     console.log('clicked');
-    handleSearch();
+    handleSearch(true);
+}
+const showDetails=(id)=>{
+    console.log(id);
 }
